@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>FlowPass | Pós-evento</title>
+  <title>AMR | Pós-evento</title>
 
   <style>
     * {
@@ -208,7 +208,8 @@
       margin: 14px 0 7px;
     }
 
-    select {
+    select,
+    input {
       width: 100%;
       min-height: 50px;
       border: 1px solid rgba(15, 37, 34, 0.08);
@@ -218,6 +219,12 @@
       padding: 0 14px;
       font-size: 0.94rem;
       background: rgba(255, 255, 255, 0.72);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     .btn {
@@ -308,6 +315,18 @@
       color: var(--muted);
       font-size: 0.84rem;
       line-height: 1.45;
+    }
+
+    .dynamic-note {
+      border-radius: 20px;
+      padding: 12px;
+      margin-top: 12px;
+      color: #0f5132;
+      background: rgba(22, 163, 74, 0.11);
+      border: 1px solid rgba(22, 163, 74, 0.22);
+      font-size: 0.74rem;
+      line-height: 1.38;
+      font-weight: 800;
     }
 
     .options {
@@ -500,7 +519,7 @@
         <div class="logo">AMR</div>
         <div>
           <h1>Ao Meu Redor</h1>
-          <span>Pré-evento inteligente</span>
+          <span>Pós-evento inteligente</span>
         </div>
       </div>
 
@@ -511,7 +530,7 @@
       <div class="step">03 · Pós-evento</div>
       <h2>Saída organizada para todos.</h2>
       <p>
-        O participante recebe horários alternativos de saída e os organizadores acompanham o fluxo em um painel administrativo.
+        Informe o horário em que pretende sair e o AMR sugere o melhor momento para reduzir espera, fila e congestionamento.
       </p>
     </section>
 
@@ -526,7 +545,7 @@
         <div>
           <small>Painel do participante</small>
           <h3 id="nomeParticipante">Participante</h3>
-          <p id="dadosParticipante">Sem reserva encontrada. A sugestão será calculada pelo transporte escolhido.</p>
+          <p id="dadosParticipante">Sem reserva encontrada. A sugestão será calculada pelo transporte e setor escolhido.</p>
         </div>
 
         <div class="exit-icon">↗</div>
@@ -535,11 +554,14 @@
       <section class="card glass">
         <h3>Saída inteligente</h3>
         <p>
-          Escolha seu meio de saída para receber uma recomendação com menor fila, menor espera e menor congestionamento.
+          Informe quando você pretende sair. O AMR compara esse horário com o tipo de transporte, setor de saída e espera estimada no local.
         </p>
 
+        <label>Horário que você prevê sua saída</label>
+        <input id="horarioPrevistoSaida" type="time" value="17:30">
+
         <label>Como você vai sair?</label>
-        <select id="transporteSaida" onchange="calcularSaida()">
+        <select id="transporteSaida">
           <option value="uber">Uber / Pop / Táxi</option>
           <option value="carro">Carro próprio</option>
           <option value="moto">Moto</option>
@@ -548,42 +570,54 @@
           <option value="funcionario">Funcionário</option>
         </select>
 
-        <button class="btn" onclick="calcularSaida()">Gerar sugestão de saída</button>
+        <label>Entrada ou setor usado para sair</label>
+        <select id="setorSaida">
+          <option value="rotativo">Rotativo / aplicativos</option>
+          <option value="fixo">Fixo / carro e moto</option>
+          <option value="fornecedores">Fornecedores</option>
+          <option value="funcionarios">Funcionários</option>
+        </select>
+
+        <button class="btn" onclick="calcularSaida()">Gerar melhor horário de saída</button>
 
         <div class="suggestion-main">
           <small>Melhor horário sugerido</small>
-          <h2 id="horarioSugerido">17h45</h2>
+          <h2 id="horarioSugerido">17h55</h2>
           <p id="motivoSugerido">
-            Aguarde alguns minutos após o encerramento para evitar o pico de saída.
+            Informe seu horário previsto e toque no botão para receber uma sugestão mais rápida.
           </p>
+
+          <div class="dynamic-note" id="notaDinamica">
+            O tempo pode mudar para que a saída seja mais rápida. A sugestão é decidida pela entrada/setor escolhido e pela espera acompanhada no site.
+          </div>
         </div>
 
         <div class="options">
           <div class="option">
-            <strong>Agora</strong>
+            <strong id="opcaoAgoraHora">17h30</strong>
             <div>
-              <strong>Saída imediata</strong>
-              <span>Maior chance de fila e congestionamento.</span>
+              <strong>Saída prevista</strong>
+              <span id="opcaoAgoraTexto">Horário informado por você.</span>
             </div>
-            <div class="level red">Alto</div>
+            <div class="level red">Maior</div>
           </div>
 
           <div class="option">
-            <strong>+15min</strong>
+            <strong id="opcaoMediaHora">17h45</strong>
             <div>
-              <strong>Saída moderada</strong>
-              <span>Fluxo começa a diminuir nos acessos principais.</span>
+              <strong>Saída intermediária</strong>
+              <span id="opcaoMediaTexto">Fluxo começa a diminuir nos acessos principais.</span>
             </div>
             <div class="level yellow">Médio</div>
           </div>
 
           <div class="option">
-            <strong>+30min</strong>
+            <strong id="opcaoMelhorHora">17h55</strong>
             <div>
               <strong>Saída recomendada</strong>
-              <span>Menor tempo de espera e melhor organização.</span>
+              <span id="opcaoMelhorTexto">Menor tempo de espera e melhor organização.</span>
             </div>
-            <div class="level green">Baixo</div>
+            <div class="level green">Melhor</div>
           </div>
         </div>
       </section>
@@ -773,56 +807,138 @@
       }
 
       document.getElementById("nomeParticipante").textContent = reserva.nome;
+
+      const entrada = reserva.acessoExterno || reserva.entrada || "entrada definida no pré-evento";
       document.getElementById("dadosParticipante").textContent =
-        `${reserva.codigo} · ${reserva.setor} · ${reserva.entrada}`;
+        `${reserva.codigo} · ${reserva.setor} · ${entrada}`;
 
       if (reserva.transporte === "carro") document.getElementById("transporteSaida").value = "carro";
       if (reserva.transporte === "moto") document.getElementById("transporteSaida").value = "moto";
-      if (reserva.transporte === "uber") document.getElementById("transporteSaida").value = "uber";
+      if (reserva.transporte === "uber" || reserva.transporte === "mototaxi") document.getElementById("transporteSaida").value = "uber";
       if (reserva.transporte === "carga") document.getElementById("transporteSaida").value = "fornecedor";
       if (reserva.perfil === "funcionario") document.getElementById("transporteSaida").value = "funcionario";
+
+      if (reserva.setor === "Rotativo") document.getElementById("setorSaida").value = "rotativo";
+      if (reserva.setor === "Fixo") document.getElementById("setorSaida").value = "fixo";
+      if (reserva.setor === "Fornecedores") document.getElementById("setorSaida").value = "fornecedores";
+      if (reserva.setor === "Funcionários") document.getElementById("setorSaida").value = "funcionarios";
 
       calcularSaida();
     }
 
     function calcularSaida() {
+      const horarioPrevisto = document.getElementById("horarioPrevistoSaida").value || "17:30";
       const transporte = document.getElementById("transporteSaida").value;
+      const setor = document.getElementById("setorSaida").value;
 
-      let horario = "17h45";
-      let motivo = "Aguarde alguns minutos após o encerramento para evitar o pico de saída.";
+      const previstoMin = horaParaMinutos(horarioPrevisto);
+      const ajuste = calcularAjusteDeEspera(transporte, setor, previstoMin);
+      const intermediarioMin = previstoMin + Math.round(ajuste / 2);
+      const sugeridoMin = previstoMin + ajuste;
 
-      if (transporte === "uber") {
-        horario = "18h05";
-        motivo = "A demanda por aplicativo tende a cair depois do pico inicial. Use a área rotativa de embarque.";
+      const horarioPrevistoFormatado = minutosParaHora(previstoMin);
+      const horarioIntermediario = minutosParaHora(intermediarioMin);
+      const horarioSugerido = minutosParaHora(sugeridoMin);
+
+      document.getElementById("horarioSugerido").textContent = horarioSugerido;
+
+      document.getElementById("motivoSugerido").textContent =
+        montarMotivo(transporte, setor, horarioPrevistoFormatado, horarioSugerido, ajuste);
+
+      document.getElementById("notaDinamica").textContent =
+        "O tempo pode mudar para que a saída seja mais rápida. A sugestão é decidida pela entrada/setor escolhido e pela espera acompanhada no site.";
+
+      document.getElementById("opcaoAgoraHora").textContent = horarioPrevistoFormatado;
+      document.getElementById("opcaoMediaHora").textContent = horarioIntermediario;
+      document.getElementById("opcaoMelhorHora").textContent = horarioSugerido;
+
+      document.getElementById("opcaoAgoraTexto").textContent =
+        "Horário informado por você. Pode ter mais espera se coincidir com o pico de saída.";
+
+      document.getElementById("opcaoMediaTexto").textContent =
+        "Alternativa com menor fluxo, considerando a entrada/setor selecionado.";
+
+      document.getElementById("opcaoMelhorTexto").textContent =
+        "Horário calculado para reduzir fila, espera e conflito no estacionamento.";
+    }
+
+    function calcularAjusteDeEspera(transporte, setor, previstoMin) {
+      let ajuste = 0;
+
+      const picoInicio = horaParaMinutos("17:00");
+      const picoFim = horaParaMinutos("18:10");
+
+      if (previstoMin >= picoInicio && previstoMin <= picoFim) {
+        ajuste += 15;
       }
 
-      if (transporte === "carro") {
-        horario = "18h10";
-        motivo = "Para carro próprio, o ideal é aguardar a redução do fluxo no setor fixo e sair depois das motos e aplicativos.";
+      if (previstoMin > horaParaMinutos("18:15")) {
+        ajuste -= 5;
       }
 
-      if (transporte === "moto") {
-        horario = "17h40";
-        motivo = "Motos conseguem sair com mais agilidade. Use a saída antecipada pelo setor fixo.";
+      if (transporte === "uber") ajuste += 20;
+      if (transporte === "carro") ajuste += 30;
+      if (transporte === "moto") ajuste += 8;
+      if (transporte === "onibus") ajuste -= 10;
+      if (transporte === "fornecedor") ajuste += 45;
+      if (transporte === "funcionario") ajuste += 35;
+
+      if (setor === "rotativo") ajuste += 8;
+      if (setor === "fixo") ajuste += 12;
+      if (setor === "fornecedores") ajuste += 18;
+      if (setor === "funcionarios") ajuste += 10;
+
+      if (ajuste < -15) ajuste = -15;
+      if (ajuste > 70) ajuste = 70;
+
+      return ajuste;
+    }
+
+    function montarMotivo(transporte, setor, previsto, sugerido, ajuste) {
+      const nomesTransporte = {
+        uber: "transporte por aplicativo",
+        carro: "carro próprio",
+        moto: "moto",
+        onibus: "ônibus",
+        fornecedor: "fornecedor/carga",
+        funcionario: "funcionário"
+      };
+
+      const nomesSetor = {
+        rotativo: "setor rotativo",
+        fixo: "setor fixo",
+        fornecedores: "setor de fornecedores",
+        funcionarios: "setor de funcionários"
+      };
+
+      if (ajuste < 0) {
+        return `Você previu sair às ${previsto}. Para ${nomesTransporte[transporte]} no ${nomesSetor[setor]}, o AMR sugere sair às ${sugerido}, um pouco antes, para evitar espera.`;
       }
 
-      if (transporte === "onibus") {
-        horario = "17h35";
-        motivo = "Saia um pouco antes para chegar ao ponto com menor lotação e evitar o pico de pedestres.";
+      if (ajuste === 0) {
+        return `Você previu sair às ${previsto}. O fluxo está adequado para ${nomesTransporte[transporte]} no ${nomesSetor[setor]}, então esse horário pode ser mantido.`;
       }
 
-      if (transporte === "fornecedor") {
-        horario = "18h30";
-        motivo = "Fornecedores devem aguardar a redução do fluxo de participantes para realizar carga e retirada com segurança.";
+      return `Você previu sair às ${previsto}. Para ${nomesTransporte[transporte]} no ${nomesSetor[setor]}, o AMR sugere sair às ${sugerido}, após reduzir o pico de espera.`;
+    }
+
+    function horaParaMinutos(hora) {
+      const partes = hora.split(":");
+      return Number(partes[0]) * 60 + Number(partes[1]);
+    }
+
+    function minutosParaHora(totalMinutos) {
+      const dia = 24 * 60;
+      let minutos = totalMinutos % dia;
+
+      if (minutos < 0) {
+        minutos += dia;
       }
 
-      if (transporte === "funcionario") {
-        horario = "18h20";
-        motivo = "Funcionários devem priorizar apoio à saída do público antes de deixar o local.";
-      }
+      const h = Math.floor(minutos / 60);
+      const m = minutos % 60;
 
-      document.getElementById("horarioSugerido").textContent = horario;
-      document.getElementById("motivoSugerido").textContent = motivo;
+      return String(h).padStart(2, "0") + "h" + String(m).padStart(2, "0");
     }
 
     function simularFluxo() {

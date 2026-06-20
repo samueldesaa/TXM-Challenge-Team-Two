@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>FlowPass | Durante o evento</title>
+  <title>AMR | Durante o Evento</title>
 
   <style>
     * {
@@ -16,9 +16,9 @@
 
     :root {
       --bg: #eef6f4;
-      --glass: rgba(255, 255, 255, 0.58);
-      --glass-strong: rgba(255, 255, 255, 0.78);
-      --border: rgba(255, 255, 255, 0.8);
+      --glass: rgba(255, 255, 255, 0.62);
+      --glass-strong: rgba(255, 255, 255, 0.84);
+      --border: rgba(255, 255, 255, 0.86);
       --text: #102522;
       --muted: #667773;
       --main: #0f766e;
@@ -34,10 +34,11 @@
       min-height: 100vh;
       color: var(--text);
       background:
-        radial-gradient(circle at 10% 0%, rgba(37, 99, 235, 0.18), transparent 30%),
-        radial-gradient(circle at 90% 12%, rgba(20, 184, 166, 0.34), transparent 30%),
+        radial-gradient(circle at 15% 0%, rgba(20, 184, 166, 0.34), transparent 30%),
+        radial-gradient(circle at 90% 12%, rgba(37, 99, 235, 0.18), transparent 28%),
         radial-gradient(circle at 50% 95%, rgba(245, 158, 11, 0.14), transparent 35%),
         linear-gradient(180deg, #f7fbfa, var(--bg));
+      overflow-x: hidden;
     }
 
     .app {
@@ -45,7 +46,7 @@
       min-height: 100vh;
       margin: 0 auto;
       padding: 18px;
-      padding-bottom: 104px;
+      padding-bottom: 108px;
     }
 
     .glass {
@@ -79,6 +80,7 @@
       font-weight: 900;
       background: linear-gradient(145deg, var(--main), var(--blue));
       box-shadow: 0 12px 24px rgba(15, 118, 110, 0.28);
+      font-size: 0.78rem;
     }
 
     .brand h1 {
@@ -93,14 +95,14 @@
       margin-top: 2px;
     }
 
-    .live-pill {
+    .status-pill {
       padding: 8px 11px;
       border-radius: 999px;
       font-size: 0.72rem;
       font-weight: 900;
-      color: #0f5132;
-      background: rgba(22, 163, 74, 0.13);
-      border: 1px solid rgba(22, 163, 74, 0.22);
+      color: var(--main-dark);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.9);
     }
 
     .hero {
@@ -114,12 +116,12 @@
     .hero::after {
       content: "";
       position: absolute;
-      right: -50px;
+      right: -45px;
       top: -45px;
-      width: 155px;
-      height: 155px;
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
-      background: rgba(37, 99, 235, 0.14);
+      background: rgba(15, 118, 110, 0.16);
       filter: blur(2px);
     }
 
@@ -137,8 +139,8 @@
     }
 
     .hero h2 {
-      max-width: 295px;
-      font-size: 2.25rem;
+      max-width: 320px;
+      font-size: 2.22rem;
       line-height: 0.96;
       letter-spacing: -1.6px;
       margin-bottom: 14px;
@@ -170,40 +172,36 @@
       margin-bottom: 16px;
     }
 
-    .participant-pass {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: start;
-      gap: 14px;
+    .pass-card {
       border-radius: 28px;
       padding: 18px;
       margin-bottom: 14px;
-      background: linear-gradient(145deg, rgba(255,255,255,0.8), rgba(255,255,255,0.48));
-      border: 1px solid rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.95);
       box-shadow: var(--shadow);
     }
 
-    .participant-pass small {
+    .pass-card span {
+      display: block;
       color: var(--muted);
       font-size: 0.72rem;
-      font-weight: 800;
+      margin-bottom: 4px;
     }
 
-    .participant-pass h3 {
-      font-size: 1.18rem;
-      margin: 4px 0 5px;
-    }
-
-    .participant-pass p {
-      color: var(--muted);
-      font-size: 0.78rem;
-      line-height: 1.35;
+    .pass-card strong {
+      display: block;
+      font-size: 1rem;
+      line-height: 1.25;
     }
 
     .qr {
-      width: 64px;
-      height: 64px;
-      border-radius: 17px;
+      min-width: 58px;
+      height: 58px;
+      border-radius: 16px;
       border: 6px solid var(--text);
       background:
         linear-gradient(90deg, var(--text) 8px, transparent 8px) 0 0 / 16px 16px,
@@ -211,284 +209,469 @@
         white;
     }
 
-    .guide-grid {
+    .status-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
 
-    .guide-item {
-      border: 1px solid rgba(15, 37, 34, 0.08);
+    .status-item {
+      padding: 14px;
       border-radius: 22px;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.62);
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(15, 37, 34, 0.08);
     }
 
-    .guide-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 15px;
-      display: grid;
-      place-items: center;
+    .status-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.84rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .status-top span {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .bar {
+      height: 9px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(15, 37, 34, 0.08);
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--main), var(--blue));
+      transition: 0.3s ease;
+    }
+
+    .btn {
+      width: 100%;
+      min-height: 52px;
+      border: 0;
+      border-radius: 20px;
+      margin-top: 16px;
       color: white;
-      margin-bottom: 12px;
-      background: linear-gradient(145deg, var(--main), var(--blue));
-      font-size: 1.1rem;
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 900;
+      background: linear-gradient(145deg, var(--main), var(--main-dark));
+      box-shadow: 0 16px 32px rgba(15, 118, 110, 0.28);
     }
 
-    .guide-item strong {
+    .agenda {
+      display: grid;
+      gap: 10px;
+    }
+
+    .agenda-item {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(15, 37, 34, 0.08);
+    }
+
+    .agenda-item strong {
+      font-size: 0.88rem;
+    }
+
+    .agenda-item span {
+      color: var(--muted);
+      font-size: 0.74rem;
+      line-height: 1.35;
+    }
+
+    .map-card {
+      border-radius: 28px;
+      padding: 14px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .map-header {
+      padding: 6px 6px 10px;
+    }
+
+    .map-header h3 {
+      font-size: 1.06rem;
+      margin-bottom: 5px;
+    }
+
+    .map-header p {
+      color: var(--muted);
+      font-size: 0.83rem;
+      line-height: 1.45;
+    }
+
+    .map-tools {
+      display: grid;
+      grid-template-columns: 36px 1fr 36px 58px;
+      gap: 8px;
+      align-items: center;
+      padding: 0 6px 12px;
+    }
+
+    .map-tools button {
+      height: 36px;
+      border: 1px solid rgba(15, 37, 34, 0.08);
+      border-radius: 14px;
+      color: var(--main-dark);
+      background: rgba(255, 255, 255, 0.72);
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 16px rgba(15, 61, 55, 0.08);
+    }
+
+    .map-tools .zoom-reset {
+      font-size: 0.72rem;
+    }
+
+    .zoom-range {
+      width: 100%;
+      accent-color: var(--main);
+      cursor: pointer;
+    }
+
+    .zoom-info {
+      padding: 0 8px 12px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+
+    .zoom-info strong {
+      color: var(--main-dark);
+    }
+
+    .map-scroll {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(15, 37, 34, 0.08);
+      background: rgba(255, 255, 255, 0.5);
+      scroll-snap-type: x proximity;
+      touch-action: pan-x pan-y;
+    }
+
+    .map-scroll::-webkit-scrollbar {
+      height: 7px;
+    }
+
+    .map-scroll::-webkit-scrollbar-thumb {
+      background: rgba(15, 118, 110, 0.28);
+      border-radius: 999px;
+    }
+
+    .map-stage {
+      position: relative;
+      width: 960px;
+      aspect-ratio: 1770 / 869;
+      background-image: url("Midia/MapaSebrae.png");
+      background-size: cover;
+      background-position: center;
+      scroll-snap-align: start;
+      transition: width 0.18s ease;
+    }
+
+    .map-btn {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+      padding: 6px 11px;
+      color: #12352f;
+      font-size: 0.68rem;
+      font-weight: 800;
+      white-space: nowrap;
+      cursor: pointer;
+      background: rgba(167, 243, 208, 0.72);
+      backdrop-filter: blur(8px) saturate(160%);
+      -webkit-backdrop-filter: blur(8px) saturate(160%);
+      box-shadow: 0 6px 14px rgba(15, 37, 34, 0.14);
+      transition: 0.18s ease;
+    }
+
+    .map-btn.big {
+      font-size: 0.82rem;
+      padding: 8px 13px;
+      border-radius: 11px;
+    }
+
+    .map-btn:active,
+    .map-btn.active {
+      transform: translate(-50%, -50%) scale(0.96);
+      background: rgba(15, 118, 110, 0.88);
+      color: white;
+    }
+
+    .entrada-1 { left: 56%; top: 82%; }
+    .entrada-2 { left: 78%; top: 50%; }
+    .entrada-3 { left: 82%; top: 32%; }
+    .entrada-4 { left: 37%; top: 82%; }
+
+    .estacionamento-1 { left: 78%; top: 43%; }
+    .estacionamento-2 { left: 66%; top: 48%; }
+    .estacionamento-3 { left: 59%; top: 67%; }
+    .estacionamento-4 { left: 41%; top: 49%; }
+
+    .credenciamento { left: 62%; top: 38%; }
+    .auditorio { left: 52%; top: 48%; }
+    .banheiros { left: 50%; top: 57%; }
+    .alimentacao { left: 61%; top: 58.5%; }
+
+    .map-result {
+      margin-top: 12px;
+      border-radius: 22px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(15, 37, 34, 0.08);
+    }
+
+    .map-result span {
       display: block;
-      font-size: 0.91rem;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
       margin-bottom: 4px;
     }
 
-    .guide-item span {
+    .map-result strong {
+      display: block;
+      font-size: 0.94rem;
+      margin-bottom: 4px;
+    }
+
+    .map-result p {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .quick-actions button {
+      min-height: 44px;
+      border: 1px solid rgba(15, 37, 34, 0.08);
+      border-radius: 18px;
+      color: var(--main-dark);
+      background: rgba(255, 255, 255, 0.7);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .nearby-card {
+      border-radius: 28px;
+      padding: 16px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .nearby-header {
+      padding: 4px 4px 12px;
+    }
+
+    .nearby-header h3 {
+      font-size: 1.06rem;
+      letter-spacing: -0.3px;
+      margin-bottom: 5px;
+    }
+
+    .nearby-header p {
+      color: var(--muted);
+      font-size: 0.83rem;
+      line-height: 1.45;
+    }
+
+    .nearby-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 2px 12px;
+      scroll-snap-type: x proximity;
+    }
+
+    .nearby-tabs::-webkit-scrollbar {
+      height: 0;
+    }
+
+    .nearby-tab {
+      min-height: 38px;
+      border: 1px solid rgba(15, 37, 34, 0.08);
+      border-radius: 999px;
+      padding: 0 14px;
+      color: var(--main-dark);
+      background: rgba(255, 255, 255, 0.72);
+      font-size: 0.76rem;
+      font-weight: 900;
+      white-space: nowrap;
+      cursor: pointer;
+      scroll-snap-align: start;
+    }
+
+    .nearby-tab.active {
+      color: white;
+      background: linear-gradient(145deg, var(--main), var(--main-dark));
+      border-color: transparent;
+      box-shadow: 0 12px 24px rgba(15, 118, 110, 0.2);
+    }
+
+    .nearby-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .nearby-item {
+      width: 100%;
+      border: 1px solid rgba(15, 37, 34, 0.08);
+      border-radius: 22px;
+      padding: 14px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.66);
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      transition: 0.18s ease;
+    }
+
+    .nearby-item:active {
+      transform: scale(0.98);
+    }
+
+    .nearby-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 1.02rem;
+      background: linear-gradient(145deg, var(--main), var(--blue));
+      box-shadow: 0 10px 18px rgba(15, 118, 110, 0.18);
+    }
+
+    .nearby-info strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 3px;
+      line-height: 1.25;
+    }
+
+    .nearby-info span {
       display: block;
       color: var(--muted);
       font-size: 0.72rem;
       line-height: 1.32;
     }
 
-    .timeline {
-      display: grid;
-      gap: 10px;
+    .nearby-meta {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 58px 1fr auto;
-      gap: 12px;
-      align-items: center;
-      border: 1px solid rgba(15, 37, 34, 0.08);
-      border-radius: 22px;
-      padding: 14px;
-      background: rgba(255, 255, 255, 0.62);
-    }
-
-    .timeline-item .hour {
-      font-size: 0.84rem;
+    .nearby-chip {
+      display: inline-flex;
+      padding: 5px 8px;
+      border-radius: 999px;
+      color: var(--main-dark);
+      background: rgba(15, 118, 110, 0.09);
+      font-size: 0.66rem;
       font-weight: 900;
+    }
+
+    .nearby-arrow {
+      color: var(--main-dark);
+      font-size: 1.35rem;
+      font-weight: 900;
+    }
+
+    .nearby-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 4px 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+
+    .nearby-footer strong {
       color: var(--main-dark);
     }
 
-    .timeline-item strong {
-      font-size: 0.88rem;
-    }
-
-    .timeline-item span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.72rem;
-      margin-top: 3px;
-    }
-
-    .now {
-      padding: 7px 9px;
-      border-radius: 999px;
-      font-size: 0.68rem;
-      font-weight: 900;
-      color: #0f5132;
-      background: rgba(22, 163, 74, 0.12);
-    }
-
-    .map-box {
-      position: relative;
-      height: 300px;
-      border-radius: 28px;
-      overflow: hidden;
-      background:
-        linear-gradient(90deg, rgba(15,37,34,0.05) 1px, transparent 1px),
-        linear-gradient(rgba(15,37,34,0.05) 1px, transparent 1px),
-        rgba(255, 255, 255, 0.62);
-      background-size: 28px 28px;
-      border: 1px solid rgba(15, 37, 34, 0.08);
-      margin-bottom: 14px;
-    }
-
-    .map-building {
-      position: absolute;
-      inset: 38px 32px;
-      border-radius: 34px;
-      background: rgba(255, 255, 255, 0.7);
-      border: 2px dashed rgba(15, 118, 110, 0.35);
-    }
-
-    .map-hall {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 105px;
-      height: 72px;
-      transform: translate(-50%, -50%);
-      border-radius: 24px;
+    .chat {
+      height: 220px;
+      overflow-y: auto;
       display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 10px;
-      color: white;
-      font-size: 0.74rem;
-      font-weight: 900;
-      background: linear-gradient(145deg, var(--main), var(--blue));
-      box-shadow: 0 14px 28px rgba(15, 118, 110, 0.25);
-    }
-
-    .pin {
-      position: absolute;
-      min-width: 44px;
-      min-height: 38px;
-      border: 0;
-      border-radius: 999px;
-      padding: 8px 10px;
-      color: var(--text);
-      font-size: 0.7rem;
-      font-weight: 900;
-      background: rgba(255, 255, 255, 0.84);
-      box-shadow: 0 10px 22px rgba(15, 61, 55, 0.12);
-      cursor: pointer;
-    }
-
-    .pin.active {
-      color: white;
-      background: linear-gradient(145deg, var(--main), var(--main-dark));
-    }
-
-    .p1 { left: 24px; top: 28px; }
-    .p2 { right: 24px; top: 42px; }
-    .p3 { left: 24px; bottom: 42px; }
-    .p4 { right: 24px; bottom: 42px; }
-    .p5 { left: 50%; bottom: 18px; transform: translateX(-50%); }
-    .p6 { left: 50%; top: 18px; transform: translateX(-50%); }
-
-    .route-result {
-      border-radius: 24px;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid rgba(15, 37, 34, 0.08);
-    }
-
-    .route-result small {
-      color: var(--muted);
-      font-size: 0.72rem;
-      font-weight: 800;
-    }
-
-    .route-result strong {
-      display: block;
-      margin: 4px 0;
-      font-size: 0.96rem;
-    }
-
-    .route-result p {
-      color: var(--muted);
-      font-size: 0.8rem;
-      line-height: 1.4;
-    }
-
-    .whatsapp-box {
-      border-radius: 28px;
-      padding: 16px;
-      background: rgba(255, 255, 255, 0.62);
-      border: 1px solid rgba(15, 37, 34, 0.08);
-    }
-
-    .chat-preview {
-      display: grid;
+      align-content: start;
       gap: 10px;
-      margin-bottom: 14px;
+      padding: 14px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(15, 37, 34, 0.08);
+      margin-bottom: 10px;
     }
 
-    .message {
+    .msg {
       max-width: 88%;
-      padding: 12px 13px;
-      border-radius: 18px;
+      padding: 12px;
+      border-radius: 16px;
       font-size: 0.82rem;
       line-height: 1.35;
     }
 
-    .message.bot {
-      background: rgba(15, 118, 110, 0.1);
-      color: var(--main-dark);
-      border-top-left-radius: 6px;
+    .bot {
+      background: rgba(255, 255, 255, 0.9);
     }
 
-    .message.user {
+    .user {
       justify-self: end;
-      background: rgba(37, 99, 235, 0.1);
-      color: #1e3a8a;
-      border-top-right-radius: 6px;
+      color: white;
+      background: rgba(15, 118, 110, 0.78);
     }
 
-    .quick-actions {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      margin-bottom: 12px;
-    }
-
-    .quick-actions button {
-      white-space: nowrap;
-      border: 1px solid rgba(15, 37, 34, 0.08);
-      background: rgba(255, 255, 255, 0.8);
-      color: var(--main-dark);
-      border-radius: 999px;
-      padding: 9px 12px;
-      font-size: 0.74rem;
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .chat-form {
+    .chat-row {
       display: grid;
-      grid-template-columns: 1fr 52px;
-      gap: 9px;
+      grid-template-columns: 1fr 48px;
+      gap: 8px;
     }
 
     input {
       width: 100%;
-      min-height: 50px;
       border: 1px solid rgba(15, 37, 34, 0.08);
-      border-radius: 18px;
-      outline: none;
+      background: rgba(255, 255, 255, 0.74);
       color: var(--text);
-      padding: 0 14px;
+      border-radius: 18px;
+      padding: 14px;
+      outline: none;
       font-size: 0.9rem;
-      background: rgba(255, 255, 255, 0.78);
     }
 
     .send {
       border: 0;
       border-radius: 18px;
       color: white;
+      background: linear-gradient(145deg, var(--main), var(--main-dark));
       cursor: pointer;
       font-weight: 900;
-      background: linear-gradient(145deg, #16a34a, #0f766e);
-    }
-
-    .btn-whatsapp {
-      width: 100%;
-      min-height: 52px;
-      border: 0;
-      border-radius: 20px;
-      margin-top: 12px;
-      color: white;
-      cursor: pointer;
-      font-size: 0.92rem;
-      font-weight: 900;
-      background: linear-gradient(145deg, #22c55e, #15803d);
-      box-shadow: 0 16px 32px rgba(22, 163, 74, 0.22);
-    }
-
-    .alert {
-      border-radius: 22px;
-      padding: 14px;
-      margin-top: 12px;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.22);
-      color: #92400e;
-      font-size: 0.78rem;
-      line-height: 1.4;
-      font-weight: 700;
     }
 
     .bottom-nav {
@@ -524,6 +707,39 @@
       color: white;
       background: linear-gradient(145deg, var(--main), var(--main-dark));
     }
+
+    @media (max-width: 420px) {
+      .map-stage {
+        width: 890px;
+      }
+
+      .map-btn {
+        font-size: 0.64rem;
+        padding: 5px 10px;
+        border-radius: 9px;
+      }
+
+      .map-btn.big {
+        font-size: 0.76rem;
+        padding: 7px 11px;
+      }
+
+      .nearby-item {
+        grid-template-columns: 38px 1fr auto;
+        padding: 13px;
+      }
+
+      .nearby-icon {
+        width: 38px;
+        height: 38px;
+      }
+    }
+
+    @media (min-width: 700px) {
+      .app {
+        padding-top: 30px;
+      }
+    }
   </style>
 </head>
 
@@ -531,162 +747,221 @@
   <main class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="logo">FP</div>
+        <div class="logo">AMR</div>
         <div>
-          <h1>FlowPass</h1>
+          <h1>Ao Meu Redor</h1>
           <span>Durante o evento</span>
         </div>
       </div>
 
-      <div class="live-pill">Ao vivo</div>
+      <div class="status-pill">Ao vivo</div>
     </header>
 
     <section class="hero glass">
       <div class="step">02 · Durante o evento</div>
-      <h2>Seu guia dentro do evento.</h2>
+      <h2>Encontre tudo ao seu redor.</h2>
       <p>
-        Acesse sua programação, encontre locais importantes e tire dúvidas pelo assistente virtual integrado ao WhatsApp.
+        Veja entradas, estacionamentos, credenciamento, auditório, alimentação e banheiros em um mapa interativo do Multicenter.
       </p>
     </section>
 
-    <section class="participant-pass">
+    <section class="pass-card">
       <div>
-        <small>Guia digital do participante</small>
-        <h3 id="nomeParticipante">Participante</h3>
-        <p id="dadosParticipante">Nenhuma reserva encontrada. Faça o pré-evento para personalizar sua jornada.</p>
+        <span>Meu acesso</span>
+        <strong id="passNome">Participante</strong>
+        <span id="passCodigo">Reserva ainda não carregada</span>
       </div>
 
       <div class="qr"></div>
     </section>
 
     <section class="card glass">
-      <h3>Guia rápido</h3>
-      <p>Informações essenciais para reduzir dúvidas e deslocamentos desnecessários.</p>
+      <h3>Status em tempo real</h3>
+      <p>
+        Acompanhe o movimento do evento para evitar filas e escolher melhores rotas internas.
+      </p>
 
-      <div class="guide-grid">
-        <div class="guide-item" onclick="abrirRota('Credenciamento')">
-          <div class="guide-icon">✓</div>
-          <strong>Credenciamento</strong>
-          <span>Validação de entrada e retirada de identificação.</span>
+      <div class="status-grid">
+        <div class="status-item">
+          <div class="status-top">
+            Entrada principal
+            <span id="entradaText">42%</span>
+          </div>
+          <div class="bar">
+            <div id="entradaBar" class="fill" style="width: 42%;"></div>
+          </div>
         </div>
 
-        <div class="guide-item" onclick="abrirRota('Programação')">
-          <div class="guide-icon">⌚</div>
-          <strong>Programação</strong>
-          <span>Horários das atividades principais do evento.</span>
+        <div class="status-item">
+          <div class="status-top">
+            Credenciamento
+            <span id="credText">56%</span>
+          </div>
+          <div class="bar">
+            <div id="credBar" class="fill" style="width: 56%;"></div>
+          </div>
         </div>
 
-        <div class="guide-item" onclick="abrirRota('Alimentação')">
-          <div class="guide-icon">☕</div>
-          <strong>Alimentação</strong>
-          <span>Praça de alimentação e parceiros próximos.</span>
+        <div class="status-item">
+          <div class="status-top">
+            Estacionamento 1
+            <span id="parkText">68%</span>
+          </div>
+          <div class="bar">
+            <div id="parkBar" class="fill" style="width: 68%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn" onclick="atualizarStatus()">Atualizar movimento</button>
+    </section>
+
+    <section class="map-card glass">
+      <div class="map-header">
+        <h3>Mapa interativo</h3>
+        <p>
+          Arraste o mapa para os lados, toque nos pontos e use o zoom para aproximar os detalhes.
+        </p>
+      </div>
+
+      <div class="map-tools">
+        <button type="button" onclick="alterarZoom(-0.15)">−</button>
+
+        <input
+          id="zoomRange"
+          class="zoom-range"
+          type="range"
+          min="0.85"
+          max="1.8"
+          step="0.05"
+          value="1"
+          oninput="aplicarZoom(this.value)"
+        >
+
+        <button type="button" onclick="alterarZoom(0.15)">+</button>
+        <button type="button" class="zoom-reset" onclick="resetZoom()">100%</button>
+      </div>
+
+      <div class="zoom-info">
+        Zoom atual: <strong id="zoomLabel">100%</strong>. Também funciona com gesto de pinça no celular ou Ctrl + scroll no computador.
+      </div>
+
+      <div class="map-scroll" id="mapScroll">
+        <div class="map-stage" id="mapStage">
+          <button class="map-btn entrada-1" onclick="selecionarMapa(this, 'Entrada 1', 'Entrada inferior do complexo', 'Acesso indicado para chegada pela parte inferior do mapa, conectando ao fluxo externo e áreas de estacionamento.')">Entrada 1</button>
+
+          <button class="map-btn entrada-2" onclick="selecionarMapa(this, 'Entrada 2', 'Acesso lateral próximo ao estacionamento 1', 'Boa opção para quem chega pelo lado direito do complexo e precisa acessar rapidamente a área de estacionamento.')">Entrada 2</button>
+
+          <button class="map-btn entrada-3" onclick="selecionarMapa(this, 'Entrada 3', 'Entrada superior próxima ao estacionamento 1', 'Indicada para acesso pela via superior, especialmente em eventos com orientação de agentes.')">Entrada 3</button>
+
+          <button class="map-btn entrada-4" onclick="selecionarMapa(this, 'Entrada 4', 'Entrada pela área próxima à ALEMA', 'Acesso alternativo pelo lado esquerdo do mapa, útil para fluxo separado ou orientação operacional.')">Entrada 4</button>
+
+          <button class="map-btn big estacionamento-1" onclick="selecionarMapa(this, 'Estacionamento 1', 'Maior área de estacionamento', 'Área ampla para veículos, indicada para maior volume de visitantes e chegada por entradas laterais.')">Estacionamento 1</button>
+
+          <button class="map-btn estacionamento-2" onclick="selecionarMapa(this, 'Estacionamento 2', 'Estacionamento próximo ao pavilhão', 'Área próxima à lateral do prédio principal, boa para acesso rápido ao credenciamento.')">Estacionamento 2</button>
+
+          <button class="map-btn estacionamento-3" onclick="selecionarMapa(this, 'Estacionamento 3', 'Área inferior de apoio', 'Pode ser usada como apoio para expansão, convidados ou organização do fluxo de saída.')">Estacionamento 3</button>
+
+          <button class="map-btn estacionamento-4" onclick="selecionarMapa(this, 'Estacionamento 4', 'Área próxima à ALEMA', 'Área alternativa de estacionamento, útil para separar fluxos e reduzir concentração em um único acesso.')">Estacionamento 4</button>
+
+          <button class="map-btn credenciamento" onclick="selecionarMapa(this, 'Credenciamento', 'Entrada interna do prédio/pavilhão', 'Ponto para validação de inscrição, QR Code, retirada de pulseira ou identificação do participante.')">Credenciamento</button>
+
+          <button class="map-btn auditorio" onclick="selecionarMapa(this, 'Auditório', 'Área de palestras e programação principal', 'Local indicado para atividades, palestras, painéis e programação oficial do evento.')">Auditório</button>
+
+          <button class="map-btn banheiros" onclick="selecionarMapa(this, 'Banheiros', 'Área interna próxima ao pavilhão', 'Ponto de apoio para participantes durante o evento.')">Banheiros</button>
+
+          <button class="map-btn alimentacao" onclick="selecionarMapa(this, 'Alimentação', 'Área de alimentação e apoio', 'Local indicado para lanches, refeições, descanso e serviços próximos ao participante.')">Alimentação</button>
+        </div>
+      </div>
+
+      <div class="map-result" id="mapResult">
+        <span>Ponto selecionado</span>
+        <strong>Mapa do evento</strong>
+        <p>Toque em uma entrada, estacionamento ou serviço para ver a orientação.</p>
+      </div>
+
+      <div class="quick-actions">
+        <button onclick="atalhoMapa('credenciamento')">Ir ao credenciamento</button>
+        <button onclick="atalhoMapa('alimentacao')">Ver alimentação</button>
+        <button onclick="atalhoMapa('banheiros')">Encontrar banheiro</button>
+        <button onclick="atalhoMapa('estacionamento-1')">Estacionamento</button>
+      </div>
+    </section>
+
+    <section class="nearby-card glass">
+      <div class="nearby-header">
+        <h3>Ao meu redor</h3>
+        <p>
+          Encontre serviços próximos ao Multicenter. Cada aba mostra até 5 opções e abre direto no Google Maps.
+        </p>
+      </div>
+
+      <div class="nearby-tabs" id="nearbyTabs"></div>
+
+      <div class="nearby-list" id="nearbyList"></div>
+
+      <div class="nearby-footer">
+        <span id="nearbyCount">Mostrando 5 itens</span>
+        <strong>Toque para abrir no Maps</strong>
+      </div>
+    </section>
+
+    <section class="card glass">
+      <h3>Programação objetiva</h3>
+      <p>
+        Agenda resumida para o participante não perder os principais horários.
+      </p>
+
+      <div class="agenda">
+        <div class="agenda-item">
+          <strong>09:00</strong>
+          <div>
+            <strong>Credenciamento</strong><br>
+            <span>Entrada interna do prédio/pavilhão</span>
+          </div>
         </div>
 
-        <div class="guide-item" onclick="abrirRota('Suporte')">
-          <div class="guide-icon">?</div>
-          <strong>Suporte</strong>
-          <span>Ajuda rápida com localização, fila e dúvidas.</span>
+        <div class="agenda-item">
+          <strong>10:30</strong>
+          <div>
+            <strong>Palestra principal</strong><br>
+            <span>Auditório</span>
+          </div>
+        </div>
+
+        <div class="agenda-item">
+          <strong>14:00</strong>
+          <div>
+            <strong>Workshop</strong><br>
+            <span>Pavilhão principal</span>
+          </div>
+        </div>
+
+        <div class="agenda-item">
+          <strong>17:00</strong>
+          <div>
+            <strong>Encerramento</strong><br>
+            <span>Auditório e saída orientada</span>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="card glass">
-      <h3>Minha programação</h3>
-      <p>Agenda objetiva para o participante acompanhar o evento.</p>
+      <h3>Assistente AMR</h3>
+      <p>
+        Tire dúvidas rápidas sobre localização, filas, programação e serviços.
+      </p>
 
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="hour">09:00</div>
-          <div>
-            <strong>Credenciamento</strong>
-            <span>Entrada principal · Acesso B</span>
-          </div>
-          <div class="now">início</div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="hour">10:30</div>
-          <div>
-            <strong>Palestra principal</strong>
-            <span>Auditório central</span>
-          </div>
-          <div></div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="hour">14:00</div>
-          <div>
-            <strong>Atividade / Workshop</strong>
-            <span>Sala de apoio 02</span>
-          </div>
-          <div></div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="hour">17:00</div>
-          <div>
-            <strong>Encerramento</strong>
-            <span>Palco principal</span>
-          </div>
-          <div></div>
+      <div id="chat" class="chat">
+        <div class="msg bot">
+          Olá! Posso ajudar com entradas, estacionamento, credenciamento, auditório, banheiros, alimentação e serviços ao redor.
         </div>
       </div>
-    </section>
 
-    <section class="card glass">
-      <h3>Mapa inteligente do evento</h3>
-      <p>Toque em uma área para receber uma orientação rápida de deslocamento.</p>
-
-      <div class="map-box">
-        <div class="map-building"></div>
-        <div class="map-hall">Área central<br>do evento</div>
-
-        <button class="pin p1" onclick="abrirRota('Entrada')">Entrada</button>
-        <button class="pin p2" onclick="abrirRota('Banheiros')">Banheiros</button>
-        <button class="pin p3" onclick="abrirRota('Alimentação')">Alimentação</button>
-        <button class="pin p4" onclick="abrirRota('Auditório')">Auditório</button>
-        <button class="pin p5" onclick="abrirRota('Estacionamento')">Estacion.</button>
-        <button class="pin p6" onclick="abrirRota('Credenciamento')">Check-in</button>
-      </div>
-
-      <div class="route-result">
-        <small>Rota sugerida</small>
-        <strong id="rotaTitulo">Selecione um ponto no mapa</strong>
-        <p id="rotaDescricao">O mapa exibirá o caminho mais indicado dentro do evento.</p>
-      </div>
-    </section>
-
-    <section class="card glass">
-      <h3>Assistente virtual pelo WhatsApp</h3>
-      <p>Use perguntas rápidas ou envie sua dúvida para o atendimento virtual do evento.</p>
-
-      <div class="whatsapp-box">
-        <div class="chat-preview" id="chatPreview">
-          <div class="message bot">
-            Olá! Sou o assistente do FlowPass. Posso ajudar com programação, localização, filas, alimentação e estacionamento.
-          </div>
-        </div>
-
-        <div class="quick-actions">
-          <button onclick="perguntaRapida('Onde fica o banheiro?')">Banheiro</button>
-          <button onclick="perguntaRapida('Como está a fila de entrada?')">Fila</button>
-          <button onclick="perguntaRapida('Onde fica a alimentação?')">Alimentação</button>
-          <button onclick="perguntaRapida('Onde fica o auditório?')">Auditório</button>
-          <button onclick="perguntaRapida('Como chego ao estacionamento?')">Estacionamento</button>
-        </div>
-
-        <div class="chat-form">
-          <input id="mensagemWhatsapp" placeholder="Digite sua dúvida...">
-          <button class="send" onclick="enviarPergunta()">➜</button>
-        </div>
-
-        <button class="btn-whatsapp" onclick="abrirWhatsapp()">
-          Abrir atendimento no WhatsApp
-        </button>
-
-        <div class="alert">
-          No MVP, o botão abre o WhatsApp com a mensagem pronta. Depois, basta trocar o número no JavaScript pelo contato oficial do evento.
-        </div>
+      <div class="chat-row">
+        <input id="pergunta" placeholder="Ex: onde fica uma farmácia?">
+        <button class="send" onclick="enviar()">➜</button>
       </div>
     </section>
   </main>
@@ -698,101 +973,483 @@
   </nav>
 
   <script>
-    const WHATSAPP_EVENTO = "5598999999999";
+    let mapZoom = 1;
+    let pinchStartDistance = 0;
+    let pinchStartZoom = 1;
+    let nearbyCategoriaAtual = "restaurantes";
 
-    const rotas = {
-      "Entrada": {
-        titulo: "Entrada principal",
-        descricao: "Siga pelo acesso indicado na sua reserva. Tenha o QR Code pronto para reduzir o tempo de validação."
-      },
-      "Banheiros": {
-        titulo: "Banheiros",
-        descricao: "Os banheiros ficam no corredor lateral direito, próximos à área de alimentação. Tempo estimado: 2 minutos."
-      },
-      "Alimentação": {
-        titulo: "Área de alimentação",
-        descricao: "A praça de alimentação está próxima ao corredor lateral. Verifique também os parceiros externos com descontos."
-      },
-      "Auditório": {
-        titulo: "Auditório central",
-        descricao: "Siga pela área central do evento e vire à esquerda após o credenciamento. Tempo estimado: 4 minutos."
-      },
-      "Estacionamento": {
-        titulo: "Estacionamento",
-        descricao: "Use o setor informado na sua reserva. Rotativo, fixo, fornecedores e funcionários possuem acessos separados."
-      },
-      "Credenciamento": {
-        titulo: "Credenciamento",
-        descricao: "Dirija-se ao check-in logo após a entrada. Participantes com QR Code têm validação mais rápida."
-      },
-      "Programação": {
-        titulo: "Programação do evento",
-        descricao: "Acompanhe os horários principais no guia digital. Ative lembretes para não perder palestras ou workshops."
-      },
-      "Suporte": {
-        titulo: "Suporte ao participante",
-        descricao: "Use o assistente virtual pelo WhatsApp para dúvidas sobre localização, filas, horários e serviços."
-      }
+    const MAP_MIN_ZOOM = 0.85;
+    const MAP_MAX_ZOOM = 1.8;
+
+    const nearbyCategorias = [
+      { id: "restaurantes", nome: "Restaurantes", icone: "🍽️" },
+      { id: "hoteis", nome: "Hotéis", icone: "🏨" },
+      { id: "farmacias", nome: "Farmácias", icone: "💊" },
+      { id: "comercios", nome: "Comércios", icone: "🛒" },
+      { id: "emergencia", nome: "Emergência", icone: "🏥" }
+    ];
+
+    const nearbyData = {
+      restaurantes: [
+        {
+          nome: "Empório Giga",
+          tipo: "Restaurante / pizzaria",
+          local: "Av. da Universidade, Cohafuma, São Luís - MA",
+          distancia: "Próximo ao Multicenter",
+          query: "Empório Giga Cohafuma São Luís MA"
+        },
+        {
+          nome: "Mineiro Delivery Cohafuma",
+          tipo: "Restaurante / delivery",
+          local: "Av. Jerônimo de Albuquerque, 2000, Cohafuma, São Luís - MA",
+          distancia: "Na região da Av. Jerônimo de Albuquerque",
+          query: "Mineiro Delivery São Luís Cohafuma Av Jerônimo de Albuquerque"
+        },
+        {
+          nome: "Sal e Brasa São Luís",
+          tipo: "Churrascaria",
+          local: "Av. dos Holandeses, 10, Calhau, São Luís - MA",
+          distancia: "Região do Calhau",
+          query: "Sal e Brasa São Luís Av dos Holandeses 10 Calhau"
+        },
+        {
+          nome: "La Casa Di Pizza",
+          tipo: "Pizzaria",
+          local: "São Luís - MA",
+          distancia: "Região próxima ao Calhau/Vinhais",
+          query: "La Casa Di Pizza São Luís MA"
+        },
+        {
+          nome: "Água Viva Restaurante",
+          tipo: "Restaurante",
+          local: "Planalto Vinhais II, São Luís - MA",
+          distancia: "Região do Vinhais",
+          query: "Água Viva Restaurante Planalto Vinhais II São Luís"
+        }
+      ],
+
+      hoteis: [
+        {
+          nome: "Blue Tree Premium São Luís",
+          tipo: "Hotel",
+          local: "Av. Avicenia, 01, São Luís - MA",
+          distancia: "Região do Calhau",
+          query: "Blue Tree Premium São Luís Av Avicenia 01"
+        },
+        {
+          nome: "Hotel Luzeiros São Luís",
+          tipo: "Hotel",
+          local: "Rua João Pereira Damasceno, 02, Ponta do Farol, São Luís - MA",
+          distancia: "Ponta do Farol",
+          query: "Hotel Luzeiros São Luís Rua João Pereira Damasceno 02"
+        },
+        {
+          nome: "ibis São Luís",
+          tipo: "Hotel",
+          local: "São Luís - MA",
+          distancia: "Região hoteleira próxima",
+          query: "ibis São Luís hotel"
+        },
+        {
+          nome: "Hotel Sambaquis",
+          tipo: "Hotel",
+          local: "São Luís - MA",
+          distancia: "Região próxima ao Calhau",
+          query: "Hotel Sambaquis São Luís MA"
+        },
+        {
+          nome: "Hotel Ilha Costeira",
+          tipo: "Hotel",
+          local: "São Luís - MA",
+          distancia: "Região do Calhau",
+          query: "Hotel Ilha Costeira São Luís MA"
+        }
+      ],
+
+      farmacias: [
+        {
+          nome: "Drogasil Cohama",
+          tipo: "Farmácia",
+          local: "Av. Daniel de La Touche, Cohama, São Luís - MA",
+          distancia: "Região da Cohama",
+          query: "Drogasil Cohama São Luís Av Daniel de La Touche"
+        },
+        {
+          nome: "Drogasil Shopping da Ilha",
+          tipo: "Farmácia",
+          local: "Shopping da Ilha, Av. Daniel de La Touche, 987, Cohama",
+          distancia: "Dentro do Shopping da Ilha",
+          query: "Drogasil Shopping da Ilha São Luís"
+        },
+        {
+          nome: "Mix+Farma Cohafuma",
+          tipo: "Farmácia / delivery",
+          local: "Cohafuma, São Luís - MA",
+          distancia: "Região do Cohafuma",
+          query: "Mix Farma Cohafuma São Luís MA"
+        },
+        {
+          nome: "Lojão Farmacol",
+          tipo: "Farmácia / comércio",
+          local: "São Luís - MA",
+          distancia: "Região próxima ao Vinhais/Cohama",
+          query: "Lojão Farmacol São Luís MA"
+        },
+        {
+          nome: "Farmácia próxima ao Multicenter",
+          tipo: "Busca rápida",
+          local: "Ao redor do Multicenter Sebrae, São Luís - MA",
+          distancia: "Busca no Maps",
+          query: "farmácia perto do Multicenter Sebrae São Luís"
+        }
+      ],
+
+      comercios: [
+        {
+          nome: "Shopping da Ilha",
+          tipo: "Shopping center",
+          local: "Av. Daniel de La Touche, 987, Cohama, São Luís - MA",
+          distancia: "Cohama",
+          query: "Shopping da Ilha Av Daniel de La Touche 987 São Luís"
+        },
+        {
+          nome: "Mateus Shopping da Ilha",
+          tipo: "Supermercado",
+          local: "Shopping da Ilha, Piso L1, Av. Daniel de La Touche, 987",
+          distancia: "Dentro do Shopping da Ilha",
+          query: "Mateus Shopping da Ilha São Luís"
+        },
+        {
+          nome: "Equatorial Energia Maranhão",
+          tipo: "Serviço público",
+          local: "Alameda A, Qd SQS, nº 100, Quitandinha, Altos do Calhau",
+          distancia: "Quitandinha / Altos do Calhau",
+          query: "Equatorial Energia Maranhão Alameda A 100 Quitandinha São Luís"
+        },
+        {
+          nome: "Havan São Luís",
+          tipo: "Loja de departamento",
+          local: "São Luís - MA",
+          distancia: "Região do Turu",
+          query: "Havan São Luís MA"
+        },
+        {
+          nome: "CEASA",
+          tipo: "Abastecimento / comércio",
+          local: "São Luís - MA",
+          distancia: "Região próxima ao Cohafuma",
+          query: "CEASA São Luís Cohafuma"
+        }
+      ],
+
+      emergencia: [
+        {
+          nome: "UPA do Vinhais",
+          tipo: "Urgência e emergência",
+          local: "Vinhais, São Luís - MA",
+          distancia: "Região do Vinhais",
+          query: "UPA do Vinhais São Luís MA"
+        },
+        {
+          nome: "Hospital São Domingos",
+          tipo: "Hospital",
+          local: "São Luís - MA",
+          distancia: "Região próxima ao Jaracaty/Cohama",
+          query: "Hospital São Domingos São Luís MA"
+        },
+        {
+          nome: "Hospital da Ilha",
+          tipo: "Hospital",
+          local: "São Luís - MA",
+          distancia: "Região do Turu",
+          query: "Hospital da Ilha São Luís MA"
+        },
+        {
+          nome: "Hospital UDI",
+          tipo: "Hospital",
+          local: "São Luís - MA",
+          distancia: "São Luís",
+          query: "Hospital UDI São Luís MA"
+        },
+        {
+          nome: "Emergência próxima ao Multicenter",
+          tipo: "Busca rápida",
+          local: "Ao redor do Multicenter Sebrae, São Luís - MA",
+          distancia: "Busca no Maps",
+          query: "hospital perto do Multicenter Sebrae São Luís"
+        }
+      ]
     };
 
-    function carregarParticipante() {
+    function carregarPasse() {
       const reserva = JSON.parse(localStorage.getItem("flowpass_reserva"));
 
-      if (!reserva) return;
+      if (!reserva) {
+        document.getElementById("passNome").textContent = "Participante";
+        document.getElementById("passCodigo").textContent = "Faça a reserva no Pré-evento";
+        return;
+      }
 
-      document.getElementById("nomeParticipante").textContent = reserva.nome;
-      document.getElementById("dadosParticipante").textContent =
-        `${reserva.codigo} · ${reserva.setor} · ${reserva.entrada} · chegada sugerida ${reserva.chegada}`;
+      document.getElementById("passNome").textContent = reserva.nome;
+      document.getElementById("passCodigo").textContent = reserva.codigo + " · " + reserva.setor;
     }
 
-    function abrirRota(local) {
-      document.querySelectorAll(".pin").forEach(pin => {
-        pin.classList.remove("active");
+    function atualizarStatus() {
+      const entrada = random(25, 88);
+      const cred = random(20, 86);
+      const park = random(40, 96);
+
+      atualizarBarra("entrada", entrada);
+      atualizarBarra("cred", cred);
+      atualizarBarra("park", park);
+    }
+
+    function atualizarBarra(id, valor) {
+      document.getElementById(id + "Text").textContent = valor + "%";
+      document.getElementById(id + "Bar").style.width = valor + "%";
+    }
+
+    function getBaseMapWidth() {
+      return window.innerWidth <= 420 ? 890 : 960;
+    }
+
+    function aplicarZoom(novoZoom, manterCentro = true) {
+      const mapScroll = document.getElementById("mapScroll");
+      const mapStage = document.getElementById("mapStage");
+      const zoomRange = document.getElementById("zoomRange");
+      const zoomLabel = document.getElementById("zoomLabel");
+
+      if (!mapScroll || !mapStage) return;
+
+      const larguraAnterior = mapScroll.scrollWidth || mapStage.offsetWidth;
+      const centroAtual = larguraAnterior > 0
+        ? (mapScroll.scrollLeft + mapScroll.clientWidth / 2) / larguraAnterior
+        : 0.5;
+
+      mapZoom = Math.min(MAP_MAX_ZOOM, Math.max(MAP_MIN_ZOOM, Number(novoZoom)));
+
+      mapStage.style.width = (getBaseMapWidth() * mapZoom) + "px";
+
+      if (zoomRange) {
+        zoomRange.value = mapZoom;
+      }
+
+      if (zoomLabel) {
+        zoomLabel.textContent = Math.round(mapZoom * 100) + "%";
+      }
+
+      if (manterCentro) {
+        requestAnimationFrame(() => {
+          const novaLargura = mapScroll.scrollWidth;
+          mapScroll.scrollLeft = Math.max(0, centroAtual * novaLargura - mapScroll.clientWidth / 2);
+        });
+      }
+    }
+
+    function alterarZoom(delta) {
+      aplicarZoom(mapZoom + delta);
+    }
+
+    function resetZoom() {
+      aplicarZoom(1);
+    }
+
+    function ativarZoomDoMapa() {
+      const mapScroll = document.getElementById("mapScroll");
+
+      mapScroll.addEventListener("wheel", function(event) {
+        if (!event.ctrlKey) return;
+
+        event.preventDefault();
+
+        const direcao = event.deltaY > 0 ? -0.12 : 0.12;
+        aplicarZoom(mapZoom + direcao);
+      }, { passive: false });
+
+      mapScroll.addEventListener("touchstart", function(event) {
+        if (event.touches.length === 2) {
+          pinchStartDistance = distanciaEntreToques(event.touches);
+          pinchStartZoom = mapZoom;
+        }
+      }, { passive: false });
+
+      mapScroll.addEventListener("touchmove", function(event) {
+        if (event.touches.length === 2 && pinchStartDistance > 0) {
+          event.preventDefault();
+
+          const distanciaAtual = distanciaEntreToques(event.touches);
+          const fator = distanciaAtual / pinchStartDistance;
+
+          aplicarZoom(pinchStartZoom * fator);
+        }
+      }, { passive: false });
+
+      mapScroll.addEventListener("touchend", function(event) {
+        if (event.touches.length < 2) {
+          pinchStartDistance = 0;
+        }
+      });
+    }
+
+    function distanciaEntreToques(touches) {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function selecionarMapa(botao, titulo, subtitulo, texto) {
+      document.querySelectorAll(".map-btn").forEach(item => {
+        item.classList.remove("active");
       });
 
-      event?.target?.classList?.add("active");
+      botao.classList.add("active");
 
-      const rota = rotas[local];
-
-      document.getElementById("rotaTitulo").textContent = rota.titulo;
-      document.getElementById("rotaDescricao").textContent = rota.descricao;
+      document.getElementById("mapResult").innerHTML = `
+        <span>${subtitulo}</span>
+        <strong>${titulo}</strong>
+        <p>${texto}</p>
+      `;
     }
 
-    function perguntaRapida(texto) {
-      document.getElementById("mensagemWhatsapp").value = texto;
-      enviarPergunta();
+    function centralizarBotaoNoMapa(botao) {
+      const mapScroll = document.getElementById("mapScroll");
+
+      const destino = botao.offsetLeft - mapScroll.clientWidth / 2 + botao.offsetWidth / 2;
+
+      mapScroll.scrollTo({
+        left: Math.max(0, destino),
+        behavior: "smooth"
+      });
     }
 
-    function enviarPergunta() {
-      const input = document.getElementById("mensagemWhatsapp");
+    function atalhoMapa(classe) {
+      const botao = document.querySelector("." + classe);
+
+      if (!botao) return;
+
+      centralizarBotaoNoMapa(botao);
+
+      setTimeout(() => {
+        botao.click();
+      }, 300);
+    }
+
+    function criarLinkMaps(query) {
+      return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(query);
+    }
+
+    function renderizarAbasNearby() {
+      const tabs = document.getElementById("nearbyTabs");
+
+      tabs.innerHTML = nearbyCategorias.map(categoria => `
+        <button
+          class="nearby-tab ${categoria.id === nearbyCategoriaAtual ? "active" : ""}"
+          onclick="trocarNearby('${categoria.id}')"
+        >
+          ${categoria.icone} ${categoria.nome}
+        </button>
+      `).join("");
+    }
+
+    function renderizarNearby() {
+      const lista = document.getElementById("nearbyList");
+      const contador = document.getElementById("nearbyCount");
+      const itens = nearbyData[nearbyCategoriaAtual] || [];
+      const limite = 5;
+      const visiveis = itens.slice(0, limite);
+      const categoria = nearbyCategorias.find(item => item.id === nearbyCategoriaAtual);
+
+      lista.innerHTML = visiveis.map(item => `
+        <button class="nearby-item" onclick="abrirMaps('${item.query.replace(/'/g, "\\'")}')">
+          <div class="nearby-icon">${categoria ? categoria.icone : "📍"}</div>
+
+          <div class="nearby-info">
+            <strong>${item.nome}</strong>
+            <span>${item.local}</span>
+
+            <div class="nearby-meta">
+              <span class="nearby-chip">${item.tipo}</span>
+              <span class="nearby-chip">${item.distancia}</span>
+            </div>
+          </div>
+
+          <div class="nearby-arrow">›</div>
+        </button>
+      `).join("");
+
+      contador.textContent = `Mostrando ${visiveis.length} de ${itens.length} itens`;
+    }
+
+    function trocarNearby(categoria) {
+      nearbyCategoriaAtual = categoria;
+      renderizarAbasNearby();
+      renderizarNearby();
+    }
+
+    function abrirMaps(query) {
+      window.open(criarLinkMaps(query), "_blank");
+    }
+
+    function enviar() {
+      const input = document.getElementById("pergunta");
       const texto = input.value.trim();
+      const chat = document.getElementById("chat");
 
       if (!texto) return;
 
-      const chat = document.getElementById("chatPreview");
+      chat.innerHTML += `<div class="msg user">${texto}</div>`;
 
-      chat.innerHTML += `<div class="message user">${texto}</div>`;
-
-      let resposta = "Entendi. Vou te orientar com base nas informações do evento.";
-
+      let resposta = "Entendi. O AMR pode te orientar pelo mapa interativo e pela seção Ao meu redor.";
       const t = texto.toLowerCase();
 
+      if (t.includes("credenciamento")) {
+        resposta = "O credenciamento fica na entrada interna do prédio/pavilhão. Toque no botão Credenciamento no mapa.";
+      }
+
+      if (t.includes("auditório") || t.includes("auditorio")) {
+        resposta = "O auditório fica na área central do pavilhão principal. Use o ponto Auditório no mapa.";
+      }
+
       if (t.includes("banheiro")) {
-        resposta = "Os banheiros ficam no corredor lateral direito, próximos à área de alimentação.";
-      } else if (t.includes("fila")) {
-        resposta = "Neste momento, o acesso B está com menor fluxo. Tenha o QR Code pronto para agilizar.";
-      } else if (t.includes("alimentação") || t.includes("comida") || t.includes("lanche")) {
-        resposta = "A área de alimentação fica próxima ao corredor lateral. Também há parceiros com desconto no entorno.";
-      } else if (t.includes("auditório")) {
-        resposta = "O auditório central fica após o credenciamento, seguindo pela área central e virando à esquerda.";
-      } else if (t.includes("estacionamento")) {
-        resposta = "Siga para o setor da sua reserva: rotativo, fixo, fornecedores ou funcionários.";
-      } else if (t.includes("programação") || t.includes("horário")) {
-        resposta = "A programação principal está no guia digital: credenciamento, palestra, workshop e encerramento.";
+        resposta = "Os banheiros estão indicados no mapa perto da área interna do pavilhão.";
+      }
+
+      if (t.includes("alimentação") || t.includes("comida") || t.includes("lanche") || t.includes("restaurante")) {
+        resposta = "Veja a aba Restaurantes na seção Ao meu redor. Ela mostra opções próximas e abre direto no Google Maps.";
+        trocarNearby("restaurantes");
+      }
+
+      if (t.includes("hotel") || t.includes("hospedagem") || t.includes("pousada")) {
+        resposta = "Veja a aba Hotéis na seção Ao meu redor. Cada item abre direto no Google Maps.";
+        trocarNearby("hoteis");
+      }
+
+      if (t.includes("farmácia") || t.includes("farmacia") || t.includes("remédio") || t.includes("remedio")) {
+        resposta = "Veja a aba Farmácias na seção Ao meu redor. Ela mostra opções próximas ao evento.";
+        trocarNearby("farmacias");
+      }
+
+      if (t.includes("mercado") || t.includes("shopping") || t.includes("comércio") || t.includes("comercio")) {
+        resposta = "Veja a aba Comércios na seção Ao meu redor. Há shopping, supermercado e serviços úteis.";
+        trocarNearby("comercios");
+      }
+
+      if (t.includes("hospital") || t.includes("upa") || t.includes("emergência") || t.includes("emergencia")) {
+        resposta = "Veja a aba Emergência na seção Ao meu redor. Ela lista UPA e hospitais próximos.";
+        trocarNearby("emergencia");
+      }
+
+      if (t.includes("estacionamento")) {
+        resposta = "O Estacionamento 1 é a maior área. Também há os estacionamentos 2, 3 e 4 para separação de fluxo.";
+      }
+
+      if (t.includes("entrada")) {
+        resposta = "O mapa mostra quatro entradas. Use Entrada 1, 2, 3 ou 4 conforme o seu setor de chegada.";
       }
 
       setTimeout(() => {
-        chat.innerHTML += `<div class="message bot">${resposta}</div>`;
+        chat.innerHTML += `<div class="msg bot">${resposta}</div>`;
         chat.scrollTop = chat.scrollHeight;
       }, 350);
 
@@ -800,24 +1457,24 @@
       chat.scrollTop = chat.scrollHeight;
     }
 
-    function abrirWhatsapp() {
-      const input = document.getElementById("mensagemWhatsapp");
-      const reserva = JSON.parse(localStorage.getItem("flowpass_reserva"));
-
-      const nome = reserva?.nome || "Participante";
-      const codigo = reserva?.codigo || "sem código";
-      const setor = reserva?.setor || "sem setor definido";
-
-      const textoDigitado = input.value.trim();
-
-      const mensagem = textoDigitado || 
-        `Olá, sou ${nome}. Meu código é ${codigo}, setor ${setor}. Preciso de ajuda durante o evento.`;
-
-      const url = `https://wa.me/${WHATSAPP_EVENTO}?text=${encodeURIComponent(mensagem)}`;
-      window.open(url, "_blank");
+    function random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    carregarParticipante();
+    carregarPasse();
+    aplicarZoom(1, false);
+    ativarZoomDoMapa();
+    renderizarAbasNearby();
+    renderizarNearby();
+
+    setTimeout(() => {
+      const mapa = document.getElementById("mapScroll");
+      mapa.scrollLeft = 320;
+    }, 400);
+
+    window.addEventListener("resize", () => {
+      aplicarZoom(mapZoom, false);
+    });
   </script>
 </body>
 </html>
